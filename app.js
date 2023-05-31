@@ -6,16 +6,20 @@ const routes = require('./routes/urlRoute.js')
 
 
 
-// Global middlewares
+//! Global middlewares
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 
-// Morgan
-app.use(morgan("tiny"))
-// cors
-// app.use(cors())
 
-//route middleware
+
+//! Morgan
+app.use(morgan("tiny"))
+//! cors
+app.use(cors())
+
+
+
+//! route middleware
 app.use('/',routes)
 
 

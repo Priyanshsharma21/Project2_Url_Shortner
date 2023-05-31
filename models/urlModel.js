@@ -11,7 +11,14 @@ const urlSchema = new mongoose.Schema({
     longUrl : {
         type : String ,
         required : true ,
+        validate : {
+            validator : function(value){
+                const urlRegex = /^(https?|ftp?| http):\/\/[^\s/$.?#].[^\s]*$/;
+                return urlRegex.test(value)
+            },
 
+            message : "Invailed URL format"
+        }
     },
     shortUrl : {
         type : String , 
@@ -20,4 +27,4 @@ const urlSchema = new mongoose.Schema({
     } 
 })
 
-module.exports = mongoose.model('url',urlSchema)
+module.exports = mongoose.model('Url',urlSchema)
