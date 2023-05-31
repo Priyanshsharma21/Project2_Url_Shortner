@@ -16,7 +16,6 @@ const urlSchema = new mongoose.Schema({
                 const urlRegex = /^(https?|ftp?| http):\/\/[^\s/$.?#].[^\s]*$/;
                 return urlRegex.test(value)
             },
-
             message : "Invailed URL format"
         }
     },
