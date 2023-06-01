@@ -14,7 +14,7 @@ const createURL = async (req , res) => {
             })
         }
 
-        if(!validURL.isUri(longUrl)){
+        if(!validURL.isWebUri(longUrl)){
             return res.status(400).send({
                 status: false,
                 message: 'Invalid URL'
@@ -22,15 +22,13 @@ const createURL = async (req , res) => {
         }
 
         const urlCode = shortId.generate();
-        const shortUrl = `http://localhost:3000/${urlCode}`;
+        const shortUrl = `${process.env.BASE_URL}/${urlCode}`;
 
         const data = await URLModel.create({
             urlCode,
             longUrl,
             shortUrl
         })
-
-        // const newUrl = await URLModel.create(req.body)
 
         res.status(201).send({
             status: true,
@@ -46,22 +44,19 @@ const createURL = async (req , res) => {
 }
 
 const getUrl = async (req, res) => {
-    const { shortUrl } = req.params;
     try {
-        const url = await URLModel.findOne({ shortUrl });
+        const { urlCode } = req.params;
 
-        const long_url = url.longUrl;
+        const url = await URLModel.findOne({ urlCode });
 
-        console.log(long_url);
-
-        if (url) {
-            return res.status(302).send(long_url);
-        } else {
+        if(!url){
             return res.status(404).send({
-                status: true,
+                status: false,
                 message: 'URL not found'
-            });
+            })
         }
+
+        return res.redirect(302, url.longUrl);
 
     } catch (error) {
         res.status(500).send({
