@@ -15,7 +15,8 @@ app.use(express.urlencoded({extended : true}))
 //! Morgan
 app.use(morgan("tiny"))
 //! cors
-app.use(cors())
+// app.use(cors({ origin: 'http://localhost:5173' || 'https://surls.netlify.app/' }))
+app.use(cors({ origin: 'http://localhost:5173' }))
 
 
 

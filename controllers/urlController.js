@@ -33,8 +33,13 @@ const createURL = async (req, res) => {
             })
         }
 
+        // const alreadyExistUrl = await URLModel.findOne({longUrl})
+
+        // if(alreadyExistUrl) return res.status(400).json({status : false, message: 'Existing URL already exists'})
+
         const urlCode = shortId.generate();
-        const shortUrl = `${BASE_URL}/${urlCode}`;
+        // const shortUrl = `${BASE_URL}/${urlCode}`;
+        const shortUrl = `http://localhost:3000/${urlCode}`;
 
         const data = await URLModel.create({
             urlCode,
@@ -72,9 +77,11 @@ const getUrl = async (req, res) => {
 
         const cachedUrl = cache.get(urlCode);
 
+
         if (cachedUrl) {
             // kabhi cache mai hoga to redirect kar dega directly wirhout finding it in database
-            return res.status(200).send({status : true, data:cachedUrl});
+            // return res.status(200).send({status : true, data:cachedUrl});
+            return res.status(200).redirect(cachedUrl)
         }
 
 
@@ -93,7 +100,8 @@ const getUrl = async (req, res) => {
         cache.set(urlCode, url.longUrl, 24 * 60 * 60);
 
         // Redirect the user to the original URL
-        return res.status(200).send({status : true, data:url.longUrl});
+        // return res.status(200).send({status : true, data:url.longUrl});
+        return res.status(200).redirect(url.longUrl)
 
     } catch (error) {
         res.status(500).send({

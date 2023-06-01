@@ -3,14 +3,14 @@ const mongoose = require('mongoose')
 const urlSchema = new mongoose.Schema({
     urlCode : {
         type : String ,
-        required : true , 
+        required : [true, "Enter URL Code"], 
         unique : true , 
         lowercase : true,
         trim : true 
     },
     longUrl : {
         type : String ,
-        required : true ,
+        required : [true, "Enter Long URL"],
         validate : {
             validator : function(value){
                 const urlRegex = /^(https?|ftp?| http):\/\/[^\s/$.?#].[^\s]*$/;
@@ -20,8 +20,8 @@ const urlSchema = new mongoose.Schema({
         }
     },
     shortUrl : {
-        type : String , 
-        required : true ,
+        type : String, 
+        required : [true, "Enter Short URL"],
         unique : true
     } 
 })
