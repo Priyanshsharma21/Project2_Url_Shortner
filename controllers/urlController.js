@@ -46,9 +46,9 @@ const createURL = async (req , res) => {
 }
 
 const getUrl = async (req, res) => {
-    const { urlCode } = req.params;
+    const { shortUrl } = req.params;
     try {
-        const url = await URLModel.findOne({ urlCode });
+        const url = await URLModel.findOne({ shortUrl });
 
         const long_url = url.longUrl;
 
