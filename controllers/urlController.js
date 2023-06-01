@@ -32,6 +32,7 @@ const createURL = async (req , res) => {
 
         res.status(201).send({
             status: true,
+            message: "URL Created Successfully",
             data: data
         })
 

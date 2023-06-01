@@ -10,7 +10,7 @@ const urlSchema = new mongoose.Schema({
     },
     longUrl : {
         type : String,
-        required : true,
+        required : [true, 'Missing LongUrl'],
         validate : {
             validator : function(value){
                 const urlRegex = /^(https?|ftp?| http):\/\/[^\s/$.?#].[^\s]*$/;
