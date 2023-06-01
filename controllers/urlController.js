@@ -55,7 +55,7 @@ const getUrl = async (req, res) => {
         console.log(long_url);
 
         if (url) {
-            return res.redirect(long_url);
+            return res.status(302).send(long_url);
         } else {
             return res.status(404).send({
                 status: true,
@@ -63,7 +63,6 @@ const getUrl = async (req, res) => {
             });
         }
 
-        // return res.redirect(url.longUrl)
     } catch (error) {
         res.status(500).send({
             status: false,
