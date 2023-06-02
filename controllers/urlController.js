@@ -79,7 +79,11 @@ const createURL = async (req, res) => {
 
     res.status(201).send({
       status: true,
-      data: url,
+      data: {
+        urlCode,
+        longUrl,
+        shortUrl,
+      },
     });
   } catch (error) {
     res.status(500).send({
