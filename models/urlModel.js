@@ -25,5 +25,5 @@ const urlSchema = new mongoose.Schema({
         unique : true
     } 
 })
-
+ 
 module.exports = mongoose.model('Url',urlSchema)

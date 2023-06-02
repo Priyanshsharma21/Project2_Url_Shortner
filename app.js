@@ -6,21 +6,22 @@ const routes = require('./routes/urlRoute.js')
 
 
 
-//! Global middlewares
+
+// Global middlewares
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 
 
-
-//! Morgan
+// Morgan
 app.use(morgan("tiny"))
-//! cors
-// app.use(cors({ origin: 'http://localhost:5173' || 'https://surls.netlify.app/' }))
+
+
+// cors
 app.use(cors({ origin: 'http://localhost:5173' }))
 
 
 
-//! route middleware
+// route middleware
 app.use('/',routes)
 
 

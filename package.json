@@ -15,7 +15,9 @@
     "mongoose": "^7.2.2",
     "node-cache": "^5.1.2",
     "nodemon": "^2.0.22",
+    "redis": "^3.0.0",
     "shortid": "^2.2.16",
+    "util": "^0.12.5",
     "valid-url": "^1.0.9",
     "validator": "^13.9.0"
   }
