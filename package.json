@@ -14,6 +14,7 @@
     "express": "^4.18.2",
     "mongoose": "^7.2.2",
     "nodemon": "^2.0.22",
+    "redis": "^3.0.0",
     "valid-url": "^1.0.9"
   }
 }
