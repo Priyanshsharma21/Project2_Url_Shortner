@@ -9,8 +9,8 @@ const redisClient = redis.createClient(
     "redis-13834.c264.ap-south-1-1.ec2.cloud.redislabs.com",
     { no_ready_check: true }
 );
-redisClient.auth("spLbEbcKICkYWRvSORAanAYcfrLgCOhE", function (err) {
-    if (err) throw err;
+redisClient.auth("qMoQtZEwlww9jgVLdlOWe7deRgw9vGqK", function (err) {
+    if (err)  throw err;
 });
   
 redisClient.on("connect", async function () {
@@ -21,25 +21,6 @@ redisClient.on("connect", async function () {
 const SET_ASYNC = promisify(redisClient.SET).bind(redisClient);
 const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
 
-// Connect to the Redis server
-// const redisClient = redis.createClient({
-//     port: 12032,
-//     host: "redis-12032.c301.ap-south-1-1.ec2.cloud.redislabs.com",
-//     password: "spLbEbcKICkYWRvSORAanAYcfrLgCOhE",
-//     no_ready_check: true
-//   });
-  
-//   redisClient.on("connect", async function () {
-//     console.log("Connected to Redis..");
-//   });
-  
-//   redisClient.on("error", function (err) {
-//     console.error("Redis error:", err);
-//   });
-  
-//   // Prepare the functions for each Redis command
-//   const SET_ASYNC = promisify(redisClient.SET).bind(redisClient);
-//   const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
 
 const createURL = async (req , res) => {
     try {
