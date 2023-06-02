@@ -1,24 +1,24 @@
-const express  = require('express')
-const morgan = require('morgan')
-const cors = require('cors')
-const app = express()
-const routes = require('./routes/urlRoute.js')
+const app = require('./app.js')
+const mongoose = require('mongoose')
+
+require('dotenv').config();
+
+const { PORT, MONGODB_URL } = process.env
 
 
-
-// Global middlewares
-app.use(express.json())
-app.use(express.urlencoded({extended : true}))
-
-// Morgan
-app.use(morgan("tiny"))
-// cors
-// app.use(cors())
-
-//route middleware
-app.use('/',routes)
-
-
-
-
-module.exports = app
+const startServer = async()=>{
+    try {
+        mongoose.set('strictQuery', true)
+        await mongoose.connect(MONGODB_URL,{
+            useNewUrlParser : true,
+            useUnifiedTopology : true
+        })
+        console.log("Database Connected")
+        app.listen(PORT,()=>{
+            console.log(`Server Started At Port ${PORT}`)
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+startServer()
