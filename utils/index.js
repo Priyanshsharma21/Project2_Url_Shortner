@@ -10,7 +10,7 @@ const checkValidURL = async (url) => {
       };
     }
 
-    const response = await axios.head(url);
+    const response = await axios.get(url);
     if (response.status === 200) {
       return {
         isValid: true,

@@ -19,12 +19,16 @@ const createURL = async (req, res) => {
       });
     }
 
-    if (!validURL.isWebUri(longUrl)) {
-      return res.status(400).send({
-        status: false,
-        message: 'Invalid URL VALIDURL',
-      });
-    }
+    // if (!validURL.isWebUri(longUrl)) {
+    //   return res.status(400).send({
+    //     status: false,
+    //     message: 'Invalid URL VALIDURL',
+    //   });
+    // }
+
+    const isValidUrlAxios = await checkValidURL(longUrl)
+
+    if(isValidUrlAxios.isValid===false)return res.status(400).json({status : false, message : 'Invalid URL AXIOS'})
 
 
 
@@ -115,7 +119,7 @@ const getUrl = async (req, res) => {
     // console.log(cachedUrl,"Piyu")
     if (cachedUrl) {
       const { longUrl } = JSON.parse(cachedUrl);
-      return res.redirect(longUrl);
+      return res.status(302).redirect(longUrl);
     }
 
     const url = await URLModel.findOne({
@@ -138,7 +142,7 @@ const getUrl = async (req, res) => {
       24 * 60 * 60
     );
 
-    return res.redirect(url.longUrl);
+    return res.status(302).redirect(url.longUrl);
   } catch (error) {
     res.status(500).send({
       status: false,
