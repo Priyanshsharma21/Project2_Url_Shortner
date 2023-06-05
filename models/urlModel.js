@@ -11,6 +11,7 @@ const urlSchema = new mongoose.Schema({
     longUrl : {
         type : String ,
         required : [true, "Enter Long URL"],
+        trim : true,
         validate : {
             validator : function(value){
                 const urlRegex = /^(https?|ftp?| http):\/\/[^\s/$.?#].[^\s]*$/;
@@ -22,7 +23,8 @@ const urlSchema = new mongoose.Schema({
     shortUrl : {
         type : String, 
         required : [true, "Enter Short URL"],
-        unique : true
+        unique : true,
+        trim : true,
     } 
 })
  

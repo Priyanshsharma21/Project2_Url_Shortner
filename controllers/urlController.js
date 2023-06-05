@@ -1,7 +1,9 @@
 const URLModel = require('../models/urlModel');
 const validURL = require('valid-url');
 const shortId = require('shortid');
+const axios  = require("axios")
 const { SET_ASYNC, GET_ASYNC } = require('../utils/redisClient.js');
+const { checkValidURL } = require('../utils/index.js');
 
 
 
@@ -20,13 +22,16 @@ const createURL = async (req, res) => {
     if (!validURL.isWebUri(longUrl)) {
       return res.status(400).send({
         status: false,
-        message: 'Invalid URL',
+        message: 'Invalid URL VALIDURL',
       });
     }
 
 
+
     // check if longUrl is already cached in redis server
     let cachedUrl = await GET_ASYNC(longUrl);
+
+    console.log(cachedUrl, "Cache se aaya hu mai");
 
     if (cachedUrl) {
         // if present then send it to user
@@ -34,13 +39,17 @@ const createURL = async (req, res) => {
       return res.status(200).send({
         status: true,
         message: 'Already available',
-        shortUrl,
+        data : {
+          shortUrl
+        },
       });
     }
 
     let url = await URLModel.findOne({
       longUrl: longUrl,
-    });
+    })
+
+
     if (url) {
       await SET_ASYNC(
         longUrl,
@@ -80,11 +89,13 @@ const createURL = async (req, res) => {
     res.status(201).send({
       status: true,
       data: {
-        urlCode,
         longUrl,
         shortUrl,
+        urlCode,
       },
     });
+
+
   } catch (error) {
     res.status(500).send({
       status: false,
@@ -93,11 +104,15 @@ const createURL = async (req, res) => {
   }
 };
 
+
+
+
 const getUrl = async (req, res) => {
   try {
     const { urlCode } = req.params;
 
     let cachedUrl = await GET_ASYNC(urlCode);
+    // console.log(cachedUrl,"Piyu")
     if (cachedUrl) {
       const { longUrl } = JSON.parse(cachedUrl);
       return res.redirect(longUrl);
@@ -107,12 +122,14 @@ const getUrl = async (req, res) => {
       urlCode,
     });
 
+    // check if 400 0r 404
     if (!url) {
-      return res.status(404).json({
+      return res.status(400).json({
         status: false,
-        message: 'URL not found',
+        message: 'URL not found or Incorrect URL',
       });
     }
+
 
     await SET_ASYNC(
       urlCode,
