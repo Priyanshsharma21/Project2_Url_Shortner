@@ -1,9 +1,8 @@
 const URLModel = require('../models/urlModel');
 const validURL = require('valid-url');
 const shortId = require('shortid');
-const axios  = require("axios")
 const { SET_ASYNC, GET_ASYNC } = require('../utils/redisClient.js');
-const { checkValidURL } = require('../utils/index.js');
+const { checkValidURL } = require('../utils/axiosValidation.js');
 
 
 
@@ -19,12 +18,12 @@ const createURL = async (req, res) => {
       });
     }
 
-    // if (!validURL.isWebUri(longUrl)) {
-    //   return res.status(400).send({
-    //     status: false,
-    //     message: 'Invalid URL VALIDURL',
-    //   });
-    // }
+    if (!validURL.isWebUri(longUrl)) {
+      return res.status(400).send({
+        status: false,
+        message: 'Invalid URL VALIDURL',
+      });
+    }
 
     const isValidUrlAxios = await checkValidURL(longUrl)
 
@@ -35,7 +34,6 @@ const createURL = async (req, res) => {
     // check if longUrl is already cached in redis server
     let cachedUrl = await GET_ASYNC(longUrl);
 
-    console.log(cachedUrl, "Cache se aaya hu mai");
 
     if (cachedUrl) {
         // if present then send it to user
@@ -116,7 +114,6 @@ const getUrl = async (req, res) => {
     const { urlCode } = req.params;
 
     let cachedUrl = await GET_ASYNC(urlCode);
-    // console.log(cachedUrl,"Piyu")
     if (cachedUrl) {
       const { longUrl } = JSON.parse(cachedUrl);
       return res.status(302).redirect(longUrl);

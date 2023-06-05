@@ -11,6 +11,7 @@ const checkValidURL = async (url) => {
     }
 
     const response = await axios.get(url);
+    console.log(response)
     if (response.status === 200) {
       return {
         isValid: true,
